@@ -1,16 +1,16 @@
-package com.manoj.upstox;
+package com.manoj.upstox.controller;
 
 
-import com.manoj.upstox.com.manoj.upstox.data.Authorization;
+import com.manoj.upstox.data.AccessToken;
+import com.manoj.upstox.data.Authorization;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +19,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
+@Api(value = "Authcontroller", description = "AuthorizationController")
 @RestController
+@RequestMapping("/upstox")
 public class AuthorizationController {
 
 
@@ -39,22 +38,15 @@ public class AuthorizationController {
 
 
 
-    @RequestMapping("/")
+    @ApiOperation(value = "authorization")
+    @GetMapping("/auth")
     public String getAccessToken(@RequestParam("code") String code){
         System.out.println("api key is ");
         RestTemplate restTemplate = new RestTemplate();
-       // restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userName, password));
-//        List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-//        messageConverters.add(new FormHttpMessageConverter());
-//        messageConverters.add(new StringHttpMessageConverter());
-//        restTemplate.setMessageConverters(messageConverters);
-
         String plainString = userName+":"+password;
         System.out.println("api key is "+plainString);
         String base64ClientCredentials = new String(Base64.encodeBase64(plainString.getBytes()));
-
         HttpHeaders headers = new HttpHeaders();
-       // headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.add("Authorization", "Basic " + base64ClientCredentials);
         headers.setContentType(MediaType.APPLICATION_JSON   );
         headers.add("x-api-key", userName);
@@ -69,15 +61,10 @@ public class AuthorizationController {
         map.add(CODE_QUERYPARAM, code);
         map.add(GRANT_TYPE_QUERYPARAM, "authorization_code");
         map.add(REDIRECT_URI_QUERYPARAM, "http://127.0.0.1:8080");
-
         HttpEntity<Authorization> request = new HttpEntity<>(authorization, headers);
-
-      //  HttpEntity<Authorization> httpEntity = new HttpEntity<>(authorization,headers);
         try {
-          //  String response = restTemplate.postForObject(uri    , request, String.class);
-            ResponseEntity<String> model = restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
-
-            return model.getBody();
+            ResponseEntity<AccessToken> model = restTemplate.exchange(uri, HttpMethod.POST, request, AccessToken.class);
+            return model.getBody().toString();
         }catch(HttpClientErrorException httpException){
             return httpException.getResponseBodyAsString();
         }
