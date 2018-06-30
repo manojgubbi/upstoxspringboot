@@ -1,0 +1,4 @@
+manojs-MacBook-Air:~ manojgk$
+manojs-MacBook-Air:~ manojgk$ curl -u b9be46e39123a7d94583f2a1d537da3d54e796b1:3mbj5hayzh -H 'Content-Type: application/json'
+ -H 'x-api-key: szZ8MlVnUJtCd3lJmB7i8JViiWLWdYg7r4hNtoUb'
+ -d '{"code" : "190238b68aa48df11b00288ab087cec54e3e9513", "grant_type" : "authorization_code", "redirect_uri" : "http://127.0.0.1"}' -X POST 'https://api.upstox.com/index/oauth/token'
