@@ -1,4 +1,12 @@
 accessToken: sampleaccesstoken
-apikey: szZ8MlVnUJtCd3lJmB7i8JViiWLWdYg7r4hNtoUb
-apisecret: 3mbj5hayzh
+apikey: sampleApikey
+apisecret: samplesecret
 accessTokenUrl: https://api.upstox.com/index/oauth/token
+swagger:
+  enabled: true
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs

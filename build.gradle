@@ -7,6 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+
 	}
 }
 
@@ -24,8 +25,15 @@ repositories {
 }
 
 
+
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile "org.projectlombok:lombok:1.18.0"
+	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.3.0'
+	compile "org.apache.commons:commons-csv:1.5"
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
 
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')

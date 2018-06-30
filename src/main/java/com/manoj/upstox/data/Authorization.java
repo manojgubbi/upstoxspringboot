@@ -1,4 +1,4 @@
-package com.manoj.upstox.com.manoj.upstox.data;
+package com.manoj.upstox.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
